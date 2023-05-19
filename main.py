@@ -1,16 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 from ttkthemes import ThemedStyle
-
-# Sample functions
-def functionA(team1, team2):
-    return f"Performing Function A with {team1} and {team2}"
-
-def functionB(team1, team2):
-    return f"Performing Function B with {team1} and {team2}"
-
-def functionC(team1, team2):
-    return f"Performing Function C with {team1} and {team2}"
+import algorithms
 
 # Create the UI window
 window = tk.Tk()
@@ -37,7 +28,7 @@ team2_var = tk.StringVar(window)
 team2_dropdown = ttk.Combobox(content_frame, textvariable=team2_var, values=teamNames)
 team2_dropdown.pack(pady=10)
 
-# Dropdown for choosing function
+# Algorithms
 function_var = tk.StringVar(window)
 function_dropdown = ttk.Combobox(content_frame, textvariable=function_var, values=["functionA", "functionB", "functionC"])
 function_dropdown.pack(pady=10)
@@ -49,11 +40,11 @@ def calculate():
     selected_function = function_var.get()
 
     if selected_function == "functionA":
-        result = functionA(team1, team2)
+        result = algorithms.functionA(team1, team2)
     elif selected_function == "functionB":
-        result = functionB(team1, team2)
+        result = algorithms.functionB(team1, team2)
     elif selected_function == "functionC":
-        result = functionC(team1, team2)
+        result = algorithms.functionC(team1, team2)
     else:
         result = "No function selected"
 
