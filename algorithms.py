@@ -18,32 +18,30 @@ match_data['home_team_win'] = match_data.apply(lambda row: 1 if row['home_team_g
 conn.close()
 
 
-# Select only the relevant features
+# Select only the relevant features-
+features = ['home_team_api_id', 'away_team_api_id', 'home_team_win'] # TODO: I take only the team ids and the result of the match.
 
-features = ['date', 'league_id', 'home_team_api_id', 'away_team_api_id', 'home_team_win', 'B365H', 'B365D', 'B365A', 'BWH', 'BWA', 'possession']
 match_data = match_data[features]
 
 # Drop rows with missing values
 match_data.dropna(inplace=True)
 
-# Convert the date column to datetime format
-match_data['date'] = pd.to_datetime(match_data['date'])
-
 # Encode categorical features using one-hot encoding
 features_for_get_dummies = copy.deepcopy(features)
-features_for_get_dummies.remove('date')
 features_for_get_dummies.remove('home_team_win')
 match_data = pd.get_dummies(match_data, columns=features_for_get_dummies)
 
-
-# Split the data into training and testing sets based on the date
-train_data = match_data[(match_data['date'].dt.year < 2015) | (match_data['date'].dt.year > 2016)]
-test_data = match_data[(match_data['date'].dt.year == 2015) | (match_data['date'].dt.year == 2016)]
+train_data = match_data
+test_data = "" # TODO: Update the values of the test data according to the UI. (!!!)
 
 # Add missing columns to test_data
 missing_cols = set(train_data.columns) - set(test_data.columns)
 for col in missing_cols:
     test_data[col] = 0
+
+##################################################
+# TODO: Update the values of the test data according to the UI. (!!!)
+##################################################
 
 # Split the training and testing sets into X and y
 X_train = train_data.drop(['home_team_win', 'date'], axis=1)
@@ -99,7 +97,7 @@ However, data characteristics can affect their performance.
 from sklearn.ensemble import RandomForestClassifier
 
 # Train a random forest classifier on the training set
-rfc = RandomForestClassifier(random_state=45)
+rfc = RandomForestClassifier(random_state=15)
 
 print(Fore.YELLOW + "Start training the RFC model...")
 
@@ -122,7 +120,7 @@ especially when they have a single hidden layer.
 from sklearn.neural_network import MLPClassifier
 
 # Train a MLP classifier on the training set
-mlp = MLPClassifier(hidden_layer_sizes=(20,), activation='relu', solver='adam', max_iter=100)
+mlp = MLPClassifier(hidden_layer_sizes=(20,), activation='relu', solver='adam', max_iter=15)
 
 print(Fore.YELLOW + "Start training the MLP model...")
 
