@@ -4,19 +4,13 @@ from ttkthemes import ThemedStyle
 import algorithms
 import pandas as pd
 
-# Create the UI window
 window = tk.Tk()
-window.title("Python UI")
-
-# Apply themed style
-style = ThemedStyle(window)
-style.set_theme("arc")  # You can choose other themes as well
+window.title("Project Preparation Workshop Assignment 3")
 
 # Team names array
 teamNames = ["Team 1", "Team 2", "Team 3"]
 
-# Frame for content
-content_frame = ttk.Frame(window, padding=20)
+content_frame = ttk.Frame(window, padding=50, relief="flat", borderwidth=10)
 content_frame.pack()
 
 # Dropdown for First team name
@@ -31,21 +25,21 @@ team2_dropdown.pack(pady=10)
 
 # Algorithms
 function_var = tk.StringVar(window)
-function_dropdown = ttk.Combobox(content_frame, textvariable=function_var, values=["functionA", "functionB", "functionC"])
+function_dropdown = ttk.Combobox(content_frame, textvariable=function_var, values=["RFC", "MLP", "DTC"])
 function_dropdown.pack(pady=10)
 
 # Function to calculate
 def calculate():
-    team1 = team1_var.get()
-    team2 = team2_var.get()
+    team1 = algorithms.fetchTeamIdByName(team1_var.get())
+    team2 = algorithms.fetchTeamIdByName(team2_var.get())
     selected_function = function_var.get()
 
-    if selected_function == "functionA":
-        result = algorithms.functionA(team1, team2)
-    elif selected_function == "functionB":
-        result = algorithms.functionB(team1, team2)
+    if selected_function == "RFC":
+        result = algorithms.randomForestClassifier(team1, team2)
+    elif selected_function == "MLP":
+        result = algorithms.mlpClassifier(team1, team2)
     elif selected_function == "functionC":
-        result = algorithms.functionC(team1, team2)
+        result = algorithms.dtClassifier(team1, team2)
     else:
         result = "No function selected"
 
