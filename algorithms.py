@@ -1,6 +1,8 @@
 import pandas as pd
 import sqlite3
 import copy
+from colorama import Fore, Back, Style
+import time
 
 # region Data preprocessing
 
@@ -49,7 +51,38 @@ y_train = train_data['home_team_win']
 X_test = test_data.drop(['home_team_win', 'date'], axis=1)
 y_test = test_data['home_team_win']
 
+def trainModel(model, X_train, y_train):
+    # Set fit to maximum 40 seconds:
+    start_time = time.time()
+
+    # Fit the model
+    model.fit(X_train, y_train)
+
+    # Calculate the elapsed time
+    elapsed_time = time.time() - start_time
+
+    # Print the elapsed time
+    print(Fore.YELLOW + "Elapsed time: " + str(elapsed_time) + " seconds")
+
+    return model
+
 # endregion
+
+"""**Fetch Teams by names:** \
+
+Fetch the teams by names from the database and return the team ids.
+The User chooses the teams by names and the function returns the team ids.
+
+"""
+def fetchTeamIdByName(name):
+    
+    # TODO: Update this function.
+    
+    conn = sqlite3.connect('database.sqlite')
+    team_data = pd.read_sql_query("SELECT * from team", conn)
+    team_data = team_data[team_data['team_long_name'].str.contains(name)]
+    conn.close()
+    return team_data['team_api_id'].values
 
 """**Random forest classifier:** \
 
@@ -67,16 +100,14 @@ from sklearn.ensemble import RandomForestClassifier
 
 # Train a random forest classifier on the training set
 rfc = RandomForestClassifier(random_state=45)
-rfc.fit(X_train, y_train)
 
-# from sklearn.metrics import accuracy_score
+print(Fore.YELLOW + "Start training the RFC model...")
 
-# # Make predictions on the testing set
-# y_pred = rfc.predict(X_test)
+# Fit the model with a loop that checks the elapsed time
+trainModel(rfc, X_train, y_train)
 
-# # Evaluate the performance of the model
-# rfc_accuracy = accuracy_score(y_test, y_pred)
-# print('Accuracy:', rfc_accuracy)
+print(Fore.GREEN + "Finished training the RFC model...")
+
 
 """**Multilayer perceptron classifier:** \
 
@@ -91,8 +122,13 @@ especially when they have a single hidden layer.
 from sklearn.neural_network import MLPClassifier
 
 # Train a MLP classifier on the training set
-mlp = MLPClassifier(hidden_layer_sizes=(20,), activation='relu', solver='adam', max_iter=200)
-mlp.fit(X_train, y_train)
+mlp = MLPClassifier(hidden_layer_sizes=(20,), activation='relu', solver='adam', max_iter=100)
+
+print(Fore.YELLOW + "Start training the MLP model...")
+
+trainModel(mlp, X_train, y_train)
+
+print(Fore.GREEN + "Finished training the MLP model...")
 
 # from sklearn.metrics import accuracy_score
 
@@ -116,48 +152,61 @@ from sklearn.tree import DecisionTreeClassifier
 
 # Train the classifier on your data
 dtc = DecisionTreeClassifier(max_depth=8)
-dtc.fit(X_train, y_train)
 
-# from sklearn.metrics import accuracy_score
+print(Fore.YELLOW + "Start training the DTC model...")
 
-# # Make predictions on new data
-# y_pred = dtc.predict(X_test)
+trainModel(dtc, X_train, y_train)
 
-# # Evaluate the performance of the model
-# dtc_accuracy = accuracy_score(y_test, y_pred)
-# print('Accuracy:', dtc_accuracy)
+print(Fore.GREEN + "Finished training the DTC model...")
+
+####################################################################################################
+    # TODO: Update this function. should use the trained model in order to predict the winner.
+    #       Currently calculating the probability of team A winning in general, and not against team B.
+    #       Should return the probability of team A winning against team B.
+####################################################################################################
 
 
+def randomForestClassifier(teamA, teamB, model= rfc):
+    teamA_df = pd.DataFrame(columns=X_train.columns)
+    teamB_df = pd.DataFrame(columns=X_train.columns)
 
+    # Add the team's features to the DataFrame
+    for col in teamA_df.columns:
+        teamA_df.at[0, col] = teamA[col]
+        teamB_df.at[0, col] = teamB[col]
 
+    # Make predictions on the team's features
+    teamA_pred = model.predict_proba(teamA_df)
 
-# """**Print plot for accuracies**"""
+    # Return the probability of team A winning
+    return teamA_pred[0][1]
 
-# import matplotlib.pyplot as plt
-# import pandas as pd
+def mlpClassifier(teamA, teamB, model= mlp):
+    teamA_df = pd.DataFrame(columns=X_train.columns)
+    teamB_df = pd.DataFrame(columns=X_train.columns)
 
-# models = []
-# accuracies = []
+    # Add the team's features to the DataFrame
+    for col in teamA_df.columns:
+        teamA_df.at[0, col] = teamA[col]
+        teamB_df.at[0, col] = teamB[col]
 
-# models.append("Random forest")
-# accuracies.append(rfc_accuracy)
+    # Make predictions on the team's features
+    teamA_pred = model.predict_proba(teamA_df)
 
-# models.append("MLP")
-# accuracies.append(mlp_accuracy)
+    # Return the probability of team A winning
+    return teamA_pred[0][1]
 
-# models.append("Decision tree")
-# accuracies.append(dtc_accuracy)
+def dtClassifier(teamA, teamB, model= dtc):
+    teamA_df = pd.DataFrame(columns=X_train.columns)
+    teamB_df = pd.DataFrame(columns=X_train.columns)
 
-# # Create a DataFrame with the data
-# df = pd.DataFrame({'models': models, 'accuracy': accuracies})
+    # Add the team's features to the DataFrame
+    for col in teamA_df.columns:
+        teamA_df.at[0, col] = teamA[col]
+        teamB_df.at[0, col] = teamB[col]
 
-# # Create a bar plot
-# plt.bar(df['models'], df['accuracy'])
-# plt.ylim([0.3, 0.6])
+    # Make predictions on the team's features
+    teamA_pred = model.predict_proba(teamA_df)
 
-# plt.xlabel('Model')
-# plt.ylabel('Accuracy')
-# plt.title('Model Accuracy')
-
-# # Show the plot
-# plt.show()
+    # Return the probability of team A winning
+    return teamA_pred[0][1]
