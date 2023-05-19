@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import ttk
 from ttkthemes import ThemedStyle
 import algorithms
+import pandas as pd
 
 # Create the UI window
 window = tk.Tk()
@@ -49,8 +50,8 @@ def calculate():
         result = "No function selected"
 
     display_area.configure(state="normal")
-    display_area.delete("1.0", tk.END)  # Clear the display area
-    display_area.insert(tk.END, result)  # Display the result
+    display_area.delete("1.0", tk.END) 
+    display_area.insert(tk.END, result)
     display_area.configure(state="disabled")
 
 # Button to trigger calculation
