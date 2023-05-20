@@ -309,7 +309,7 @@ teamNames = [
 ]
 teamNames.sort()
 
-algorithmNames = ["RFC", "MLP", "functionC"]
+algorithmNames = ["RFC", "MLP", "DTC"]
 
 # endregion
 content_frame = ttk.Frame(window, padding=50, relief="flat", borderwidth=10)
@@ -365,7 +365,7 @@ def calculate(team1, team2, algorithm):
         result = algorithms.rfClassifier(team1, team2)
     elif algorithm == "MLP":
         result = algorithms.mlpClassifier(team1, team2)
-    elif algorithm == "functionC":
+    elif algorithm == "DTC":
         result = algorithms.dtClassifier(team1, team2)
     else:
         result = "No function selected"
