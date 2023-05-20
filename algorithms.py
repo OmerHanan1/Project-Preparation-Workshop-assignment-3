@@ -163,14 +163,20 @@ def rfClassifier(teamA, teamB, model= rfc):
     print(X_train.columns)
     print(X_train)
 
-    print(teamA)
-    print(teamB)
+    teamA_id = fetchTeamIdByName(teamA)
+    teamB_id = fetchTeamIdByName(teamB)
 
-    print(type(teamA))
-    print(type(teamB))
+    print(teamA_id)
+    print(teamB_id)
 
-    # y_pred = model.predict(X_test)
-    # print(y_pred)
+    test_data =pd.DataFrame(columns=X_train.columns)
+    test_data.at[0, 'home_team_api_id'] = teamA_id
+    test_data.at[0, 'away_team_api_id'] = teamB_id
+
+    print(test_data)
+    
+    y_pred = model.predict(test_data)
+    return(y_pred)
 
 
 
