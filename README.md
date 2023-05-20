@@ -10,6 +10,9 @@ Project Preparation Workshop assignment 3
 
 3. Make sure the .gitignore file contains the line ```database.sqlite```.
 
+4. run application command --> python .\main.py
+
+5. run tests command --> python -m unittest tests.py  
 ## Authors:
 
 Gang of 3.
