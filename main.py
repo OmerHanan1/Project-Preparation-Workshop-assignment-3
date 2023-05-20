@@ -307,6 +307,7 @@ teamNames = [
     "FC Lausanne-Sports",
     "Lugano"
 ]
+teamNames.sort()
 
 algorithmNames = ["RFC", "MLP", "functionC"]
 
