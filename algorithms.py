@@ -156,52 +156,47 @@ print(Fore.GREEN + "Finished training the DTC model..." + Style.RESET_ALL)
 
 
 def rfClassifier(teamA, teamB, model= rfc):
-    
-    print(X_train.columns)
-    print(X_train)
 
     teamA_id = fetchTeamIdByName(teamA)
     teamB_id = fetchTeamIdByName(teamB)
 
-    print(teamA_id)
-    print(teamB_id)
-
     test_data =pd.DataFrame(columns=X_train.columns)
     test_data.at[0, 'home_team_api_id'] = teamA_id
     test_data.at[0, 'away_team_api_id'] = teamB_id
-
-    print(test_data)
     
     y_pred = model.predict(test_data)
     return(y_pred)
 
 
 def mlpClassifier(teamA, teamB, model= mlp):
-    teamA_df = pd.DataFrame(columns=X_train.columns)
-    teamB_df = pd.DataFrame(columns=X_train.columns)
+    teamA_id = fetchTeamIdByName(teamA)
+    teamB_id = fetchTeamIdByName(teamB)
 
-    # Add the team's features to the DataFrame
-    for col in teamA_df.columns:
-        teamA_df.at[0, col] = teamA[col]
-        teamB_df.at[0, col] = teamB[col]
-
-    # Make predictions on the team's features
-    teamA_pred = model.predict_proba(teamA_df)
-
-    # Return the probability of team A winning
-    return teamA_pred[0][1]
+    test_data =pd.DataFrame(columns=X_train.columns)
+    test_data.at[0, 'home_team_api_id'] = teamA_id
+    test_data.at[0, 'away_team_api_id'] = teamB_id
+    
+    y_pred = model.predict(test_data)
+    return(y_pred)
 
 def dtClassifier(teamA, teamB, model= dtc):
-    teamA_df = pd.DataFrame(columns=X_train.columns)
-    teamB_df = pd.DataFrame(columns=X_train.columns)
+    teamA_id = fetchTeamIdByName(teamA)
+    teamB_id = fetchTeamIdByName(teamB)
 
-    # Add the team's features to the DataFrame
-    for col in teamA_df.columns:
-        teamA_df.at[0, col] = teamA[col]
-        teamB_df.at[0, col] = teamB[col]
+    test_data =pd.DataFrame(columns=X_train.columns)
+    test_data.at[0, 'home_team_api_id'] = teamA_id
+    test_data.at[0, 'away_team_api_id'] = teamB_id
+    
+    y_pred = model.predict(test_data)
+    return(y_pred)
 
-    # Make predictions on the team's features
-    teamA_pred = model.predict_proba(teamA_df)
+def prediction(teamA, teamB, model):
+    teamA_id = fetchTeamIdByName(teamA)
+    teamB_id = fetchTeamIdByName(teamB)
 
-    # Return the probability of team A winning
-    return teamA_pred[0][1]
+    test_data =pd.DataFrame(columns=X_train.columns)
+    test_data.at[0, 'home_team_api_id'] = teamA_id
+    test_data.at[0, 'away_team_api_id'] = teamB_id
+    
+    y_pred = model.predict(test_data)
+    return(y_pred)
