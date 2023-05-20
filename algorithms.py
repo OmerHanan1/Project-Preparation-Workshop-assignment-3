@@ -36,28 +36,9 @@ match_data = match_data[features]
 
 # Drop rows with missing values
 match_data.dropna(inplace=True)
-
-# # Encode categorical features using one-hot encoding
-# features_for_get_dummies = copy.deepcopy(features)
-# features_for_get_dummies.remove('home_team_win')
-# match_data = pd.get_dummies(match_data, columns=features_for_get_dummies)
-
-# print(match_data.columns.size)
-# print(match_data.head())
-
 train_data = pd.get_dummies(match_data)
-# print(train_data.columns.size)
-# print(train_data.head())
-# test_data = match_data # TODO: Update the values of the test data according to the UI. (!!!)
 
-# # Add missing columns to test_data
-# missing_cols = set(train_data.columns) - set(test_data.columns)
-# for col in missing_cols:
-#     test_data[col] = 0
 
-##################################################
-# TODO: Update the values of the test data according to the UI. (!!!)
-##################################################
 
 # Split the training and testing sets into X and y
 X_train = train_data.drop(['home_team_win'], axis=1)
@@ -97,7 +78,7 @@ However, data characteristics can affect their performance.
 from sklearn.ensemble import RandomForestClassifier
 
 # Train a random forest classifier on the training set
-rfc = RandomForestClassifier(random_state=5)
+rfc = RandomForestClassifier(random_state=25)
 
 print(Fore.YELLOW + "Start training the RFC model..." + Style.RESET_ALL)
 
@@ -120,7 +101,7 @@ especially when they have a single hidden layer.
 from sklearn.neural_network import MLPClassifier
 
 # Train a MLP classifier on the training set
-mlp = MLPClassifier(hidden_layer_sizes=(5,), activation='relu', solver='adam', max_iter=3)
+mlp = MLPClassifier(hidden_layer_sizes=(15,), activation='relu', solver='adam', max_iter=50)
 
 print(Fore.YELLOW + "Start training the MLP model..." + Style.RESET_ALL)
 
@@ -140,7 +121,7 @@ It is one way to display an algorithm that only contains conditional control sta
 from sklearn.tree import DecisionTreeClassifier
 
 # Train the classifier on your data
-dtc = DecisionTreeClassifier(max_depth=3)
+dtc = DecisionTreeClassifier(max_depth=5)
 
 print(Fore.YELLOW + "Start training the DTC model..." + Style.RESET_ALL)
 
