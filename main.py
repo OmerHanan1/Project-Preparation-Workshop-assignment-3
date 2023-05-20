@@ -359,7 +359,7 @@ def calculate(team1, team2, algorithm):
     except Exception as e:
         print(str(e))
         messagebox.showinfo("ERROR", f"{str(e)}")
-        return
+        return None
 
     if algorithm == "RFC":
         result = algorithms.prediction(team1, team2, "RFC")
