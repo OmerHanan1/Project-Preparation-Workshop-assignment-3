@@ -376,9 +376,16 @@ def calculate(team1, team2, algorithm):
 def outputCalculateResult():
     team1, team2, algorithm = getDataFromUI()
     result = calculate(team1, team2, algorithm)
+    result_output = None
+    if result == 1:
+        result_output = f"{team1} wins"
+    elif result == -1:
+        result_output = f"{team2} wins"
+    elif result == 0:
+        result_output = 'draw'
     display_area.configure(state="normal")
     display_area.delete("1.0", tk.END)
-    display_area.insert(tk.END, result)
+    display_area.insert(tk.END, result_output)
     display_area.configure(state="disabled")
 
 
