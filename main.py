@@ -333,11 +333,14 @@ def calculate():
     team2 = algorithms.fetchTeamIdByName(team2_var.get())
     selected_function = function_var.get()
 
+    print(team1)
+    print(team2)
+
     if selected_function == "RFC":
         result = algorithms.randomForestClassifier(team1, team2)
     elif selected_function == "MLP":
         result = algorithms.mlpClassifier(team1, team2)
-    elif selected_function == "functionC":
+    elif selected_function == "DTC":
         result = algorithms.dtClassifier(team1, team2)
     else:
         result = "No function selected"
