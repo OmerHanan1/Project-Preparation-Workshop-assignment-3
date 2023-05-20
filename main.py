@@ -333,18 +333,16 @@ function_dropdown = ttk.Combobox(
     content_frame, textvariable=function_var, values=["RFC", "MLP", "DTC"])
 function_dropdown.pack(pady=10)
 
+
 # gets data from UI
-
-
 def getDataFromUI():
     team_1_name = team1_var.get()
     team_2_name = team2_var.get()
     algorithm = function_var.get()
     return algorithm, team_1_name, team_2_name
 
+
 # validates UI data
-
-
 def validateTeamsAndAlgorithm(team_1_name, team_2_name, algorithm):
     if team_1_name not in teamNames:
         raise Exception(f"'{team_1_name}' is not a valid team")
@@ -353,9 +351,8 @@ def validateTeamsAndAlgorithm(team_1_name, team_2_name, algorithm):
     if algorithm not in algorithmNames:
         raise Exception(f"'{algorithm}' is not a valid algorithm")
 
+
 # Function to calculate
-
-
 def calculate():
     algorithm, team1, team2 = getDataFromUI()
 
@@ -377,6 +374,7 @@ def calculate():
     return result
 
 
+# outputs calculate result to UI
 def outputCalculateResult():
     result = calculate()
     display_area.configure(state="normal")
