@@ -18,6 +18,18 @@ match_data['home_team_win'] = match_data.apply(lambda row: 1 if row['home_team_g
 # Close the connection to the database
 conn.close()
 
+"""**Fetch Teams by names:** \
+
+Fetch the teams by names from the database and return the team ids.
+The User chooses the teams by names and the function returns the team ids.
+
+"""
+def fetchTeamIdByName(name):
+    conn = sqlite3.connect('database.sqlite')
+    team_data = pd.read_sql_query('SELECT id from team where team_long_name = "'+name+'"', conn)
+    conn.close()
+
+    return team_data['id'][0]
 
 # Select only the relevant features-
 features = ['home_team_api_id', 'away_team_api_id', 'home_team_win'] # TODO: I take only the team ids and the result of the match.
@@ -66,22 +78,6 @@ def trainModel(model, X_train, y_train):
     return model
 
 # endregion
-
-"""**Fetch Teams by names:** \
-
-Fetch the teams by names from the database and return the team ids.
-The User chooses the teams by names and the function returns the team ids.
-
-"""
-def fetchTeamIdByName(name):
-    
-    # TODO: Update this function.
-    
-    conn = sqlite3.connect('database.sqlite')
-    team_data = pd.read_sql_query("SELECT * from team", conn)
-    team_data = team_data[team_data['team_long_name'].str.contains(name)]
-    conn.close()
-    return team_data['team_api_id'].values
 
 """**Random forest classifier:** \
 
@@ -165,7 +161,7 @@ print(Fore.GREEN + "Finished training the DTC model...")
 ####################################################################################################
 
 
-def randomForestClassifier(teamA, teamB, model= rfc):
+def rfClassifier(teamA, teamB, model= rfc):
     teamA_df = pd.DataFrame(columns=X_train.columns)
     teamB_df = pd.DataFrame(columns=X_train.columns)
 

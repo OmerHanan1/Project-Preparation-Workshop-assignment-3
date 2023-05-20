@@ -327,17 +327,22 @@ function_var = tk.StringVar(window)
 function_dropdown = ttk.Combobox(content_frame, textvariable=function_var, values=["RFC", "MLP", "DTC"])
 function_dropdown.pack(pady=10)
 
+# gets data from UI
+def getDataFromUI():
+    team_1_name = team1_var.get()
+    team_2_name = team2_var.get()
+    algorithm = function_var.get()
+    return algorithm, team_1_name, team_2_name
+
 # Function to calculate
 def calculate():
-    team1 = algorithms.fetchTeamIdByName(team1_var.get())
-    team2 = algorithms.fetchTeamIdByName(team2_var.get())
-    selected_function = function_var.get()
+    algorithm, team1, team2 = getDataFromUI()
 
-    if selected_function == "RFC":
-        result = algorithms.randomForestClassifier(team1, team2)
-    elif selected_function == "MLP":
+    if algorithm == "RFC":
+        result = algorithms.rfClassifier(team1, team2)
+    elif algorithm == "MLP":
         result = algorithms.mlpClassifier(team1, team2)
-    elif selected_function == "functionC":
+    elif algorithm == "functionC":
         result = algorithms.dtClassifier(team1, team2)
     else:
         result = "No function selected"
