@@ -148,49 +148,17 @@ trainModel(dtc, X_train, y_train)
 
 print(Fore.GREEN + "Finished training the DTC model..." + Style.RESET_ALL)
 
-####################################################################################################
-    # TODO: Update this function. should use the trained model in order to predict the winner.
-    #       Currently calculating the probability of team A winning in general, and not against team B.
-    #       Should return the probability of team A winning against team B.
-####################################################################################################
-
-
-def rfClassifier(teamA, teamB, model= rfc):
-
-    teamA_id = fetchTeamIdByName(teamA)
-    teamB_id = fetchTeamIdByName(teamB)
-
-    test_data =pd.DataFrame(columns=X_train.columns)
-    test_data.at[0, 'home_team_api_id'] = teamA_id
-    test_data.at[0, 'away_team_api_id'] = teamB_id
-    
-    y_pred = model.predict(test_data)
-    return(y_pred)
-
-
-def mlpClassifier(teamA, teamB, model= mlp):
-    teamA_id = fetchTeamIdByName(teamA)
-    teamB_id = fetchTeamIdByName(teamB)
-
-    test_data =pd.DataFrame(columns=X_train.columns)
-    test_data.at[0, 'home_team_api_id'] = teamA_id
-    test_data.at[0, 'away_team_api_id'] = teamB_id
-    
-    y_pred = model.predict(test_data)
-    return(y_pred)
-
-def dtClassifier(teamA, teamB, model= dtc):
-    teamA_id = fetchTeamIdByName(teamA)
-    teamB_id = fetchTeamIdByName(teamB)
-
-    test_data =pd.DataFrame(columns=X_train.columns)
-    test_data.at[0, 'home_team_api_id'] = teamA_id
-    test_data.at[0, 'away_team_api_id'] = teamB_id
-    
-    y_pred = model.predict(test_data)
-    return(y_pred)
-
 def prediction(teamA, teamB, model):
+    if model == 'RFC':
+        model = rfc
+    elif model == 'MLP':
+        model = mlp
+    elif model == 'DTC':
+        model = dtc
+    else:
+        print('Invalid model')
+        return
+    
     teamA_id = fetchTeamIdByName(teamA)
     teamB_id = fetchTeamIdByName(teamB)
 

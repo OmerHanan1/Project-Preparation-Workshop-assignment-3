@@ -362,11 +362,11 @@ def calculate(team1, team2, algorithm):
         return
 
     if algorithm == "RFC":
-        result = algorithms.rfClassifier(team1, team2)
+        result = algorithms.prediction(team1, team2, "RFC")
     elif algorithm == "MLP":
-        result = algorithms.mlpClassifier(team1, team2)
+        result = algorithms.prediction(team1, team2, "MLP")
     elif algorithm == "DTC":
-        result = algorithms.dtClassifier(team1, team2)
+        result = algorithms.prediction(team1, team2, "DTC")
     else:
         result = "No function selected"
     return result
