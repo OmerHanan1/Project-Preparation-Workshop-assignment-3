@@ -1,8 +1,6 @@
 import pandas as pd
 import sqlite3
-import copy
 from colorama import Fore, Back, Style
-import logging
 import time
 
 # region Data preprocessing
@@ -35,7 +33,6 @@ def fetchTeamIdByName(name):
 features = ['home_team_api_id', 'away_team_api_id', 'home_team_win']
 
 match_data = match_data[features]
-print(match_data.columns.size)
 
 # Drop rows with missing values
 match_data.dropna(inplace=True)
@@ -177,7 +174,6 @@ def rfClassifier(teamA, teamB, model= rfc):
     
     y_pred = model.predict(test_data)
     return(y_pred)
-
 
 
 def mlpClassifier(teamA, teamB, model= mlp):
