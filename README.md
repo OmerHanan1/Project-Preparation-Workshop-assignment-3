@@ -10,3 +10,6 @@ Project Preparation Workshop assignment 3
 
 3. Make sure the .gitignore file contains the line ```database.sqlite```.
 
+## Authors:
+
+Gang of 3.
