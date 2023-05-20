@@ -161,7 +161,7 @@ print(Fore.GREEN + "Finished training the DTC model...")
 ####################################################################################################
 
 
-def randomForestClassifier(teamA, teamB, model= rfc):
+def rfClassifier(teamA, teamB, model= rfc):
     teamA_df = pd.DataFrame(columns=X_train.columns)
     teamB_df = pd.DataFrame(columns=X_train.columns)
 

@@ -339,7 +339,7 @@ def calculate():
     algorithm, team1, team2 = getDataFromUI()
 
     if algorithm == "RFC":
-        result = algorithms.randomForestClassifier(team1, team2)
+        result = algorithms.rfClassifier(team1, team2)
     elif algorithm == "MLP":
         result = algorithms.mlpClassifier(team1, team2)
     elif algorithm == "functionC":
