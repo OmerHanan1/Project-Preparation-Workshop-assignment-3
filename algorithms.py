@@ -32,7 +32,7 @@ features_for_get_dummies.remove('home_team_win')
 match_data = pd.get_dummies(match_data, columns=features_for_get_dummies)
 
 train_data = match_data
-test_data = "" # TODO: Update the values of the test data according to the UI. (!!!)
+test_data = match_data # TODO: Update the values of the test data according to the UI. (!!!)
 
 # Add missing columns to test_data
 missing_cols = set(train_data.columns) - set(test_data.columns)
@@ -44,9 +44,9 @@ for col in missing_cols:
 ##################################################
 
 # Split the training and testing sets into X and y
-X_train = train_data.drop(['home_team_win', 'date'], axis=1)
+X_train = train_data.drop(['home_team_win'], axis=1)
 y_train = train_data['home_team_win']
-X_test = test_data.drop(['home_team_win', 'date'], axis=1)
+X_test = test_data.drop(['home_team_win'], axis=1)
 y_test = test_data['home_team_win']
 
 def trainModel(model, X_train, y_train):
@@ -97,7 +97,7 @@ However, data characteristics can affect their performance.
 from sklearn.ensemble import RandomForestClassifier
 
 # Train a random forest classifier on the training set
-rfc = RandomForestClassifier(random_state=15)
+rfc = RandomForestClassifier(random_state=5)
 
 print(Fore.YELLOW + "Start training the RFC model...")
 
@@ -120,7 +120,7 @@ especially when they have a single hidden layer.
 from sklearn.neural_network import MLPClassifier
 
 # Train a MLP classifier on the training set
-mlp = MLPClassifier(hidden_layer_sizes=(20,), activation='relu', solver='adam', max_iter=15)
+mlp = MLPClassifier(hidden_layer_sizes=(5,), activation='relu', solver='adam', max_iter=3)
 
 print(Fore.YELLOW + "Start training the MLP model...")
 
@@ -149,7 +149,7 @@ It is one way to display an algorithm that only contains conditional control sta
 from sklearn.tree import DecisionTreeClassifier
 
 # Train the classifier on your data
-dtc = DecisionTreeClassifier(max_depth=8)
+dtc = DecisionTreeClassifier(max_depth=3)
 
 print(Fore.YELLOW + "Start training the DTC model...")
 
