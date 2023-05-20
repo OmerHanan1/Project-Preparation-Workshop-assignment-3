@@ -32,25 +32,31 @@ def fetchTeamIdByName(name):
     return team_data['id'][0]
 
 # Select only the relevant features-
-features = ['home_team_api_id', 'away_team_api_id', 'home_team_win'] # TODO: I take only the team ids and the result of the match.
+features = ['home_team_api_id', 'away_team_api_id', 'home_team_win']
 
 match_data = match_data[features]
+print(match_data.columns.size)
 
 # Drop rows with missing values
 match_data.dropna(inplace=True)
 
-# Encode categorical features using one-hot encoding
-features_for_get_dummies = copy.deepcopy(features)
-features_for_get_dummies.remove('home_team_win')
-match_data = pd.get_dummies(match_data, columns=features_for_get_dummies)
+# # Encode categorical features using one-hot encoding
+# features_for_get_dummies = copy.deepcopy(features)
+# features_for_get_dummies.remove('home_team_win')
+# match_data = pd.get_dummies(match_data, columns=features_for_get_dummies)
 
-train_data = match_data
-test_data = match_data # TODO: Update the values of the test data according to the UI. (!!!)
+# print(match_data.columns.size)
+# print(match_data.head())
 
-# Add missing columns to test_data
-missing_cols = set(train_data.columns) - set(test_data.columns)
-for col in missing_cols:
-    test_data[col] = 0
+train_data = pd.get_dummies(match_data)
+# print(train_data.columns.size)
+# print(train_data.head())
+# test_data = match_data # TODO: Update the values of the test data according to the UI. (!!!)
+
+# # Add missing columns to test_data
+# missing_cols = set(train_data.columns) - set(test_data.columns)
+# for col in missing_cols:
+#     test_data[col] = 0
 
 ##################################################
 # TODO: Update the values of the test data according to the UI. (!!!)
@@ -59,8 +65,8 @@ for col in missing_cols:
 # Split the training and testing sets into X and y
 X_train = train_data.drop(['home_team_win'], axis=1)
 y_train = train_data['home_team_win']
-X_test = test_data.drop(['home_team_win'], axis=1)
-y_test = test_data['home_team_win']
+# X_test = test_data.drop(['home_team_win'], axis=1)
+# y_test = test_data['home_team_win']
 
 def trainModel(model, X_train, y_train):
     # Set fit to maximum 40 seconds:
@@ -73,7 +79,7 @@ def trainModel(model, X_train, y_train):
     elapsed_time = time.time() - start_time
 
     # Print the elapsed time
-    print(Fore.YELLOW + "Elapsed time: " + str(elapsed_time) + " seconds")
+    print(Fore.YELLOW + "Elapsed time: " + str(elapsed_time) + " seconds" + Style.RESET_ALL)
 
     return model
 
@@ -96,12 +102,12 @@ from sklearn.ensemble import RandomForestClassifier
 # Train a random forest classifier on the training set
 rfc = RandomForestClassifier(random_state=5)
 
-print(Fore.YELLOW + "Start training the RFC model...")
+print(Fore.YELLOW + "Start training the RFC model..." + Style.RESET_ALL)
 
 # Fit the model with a loop that checks the elapsed time
 trainModel(rfc, X_train, y_train)
 
-print(Fore.GREEN + "Finished training the RFC model...")
+print(Fore.GREEN + "Finished training the RFC model..." + Style.RESET_ALL)
 
 
 """**Multilayer perceptron classifier:** \
@@ -119,20 +125,11 @@ from sklearn.neural_network import MLPClassifier
 # Train a MLP classifier on the training set
 mlp = MLPClassifier(hidden_layer_sizes=(5,), activation='relu', solver='adam', max_iter=3)
 
-print(Fore.YELLOW + "Start training the MLP model...")
+print(Fore.YELLOW + "Start training the MLP model..." + Style.RESET_ALL)
 
 trainModel(mlp, X_train, y_train)
 
-print(Fore.GREEN + "Finished training the MLP model...")
-
-# from sklearn.metrics import accuracy_score
-
-# # Make predictions on the testing set
-# y_pred = mlp.predict(X_test)
-
-# # Evaluate the performance of the model
-# mlp_accuracy = accuracy_score(y_test, y_pred)
-# print('Accuracy:', mlp_accuracy)
+print(Fore.GREEN + "Finished training the MLP model..." + Style.RESET_ALL)
 
 """**Decision tree classifier** \
 
@@ -148,11 +145,11 @@ from sklearn.tree import DecisionTreeClassifier
 # Train the classifier on your data
 dtc = DecisionTreeClassifier(max_depth=3)
 
-print(Fore.YELLOW + "Start training the DTC model...")
+print(Fore.YELLOW + "Start training the DTC model..." + Style.RESET_ALL)
 
 trainModel(dtc, X_train, y_train)
 
-print(Fore.GREEN + "Finished training the DTC model...")
+print(Fore.GREEN + "Finished training the DTC model..." + Style.RESET_ALL)
 
 ####################################################################################################
     # TODO: Update this function. should use the trained model in order to predict the winner.
@@ -162,19 +159,20 @@ print(Fore.GREEN + "Finished training the DTC model...")
 
 
 def rfClassifier(teamA, teamB, model= rfc):
-    teamA_df = pd.DataFrame(columns=X_train.columns)
-    teamB_df = pd.DataFrame(columns=X_train.columns)
+    
+    print(X_train.columns)
+    print(X_train)
 
-    # Add the team's features to the DataFrame
-    for col in teamA_df.columns:
-        teamA_df.at[0, col] = teamA[col]
-        teamB_df.at[0, col] = teamB[col]
+    print(teamA)
+    print(teamB)
 
-    # Make predictions on the team's features
-    teamA_pred = model.predict_proba(teamA_df)
+    print(type(teamA))
+    print(type(teamB))
 
-    # Return the probability of team A winning
-    return teamA_pred[0][1]
+    # y_pred = model.predict(X_test)
+    # print(y_pred)
+
+
 
 def mlpClassifier(teamA, teamB, model= mlp):
     teamA_df = pd.DataFrame(columns=X_train.columns)
