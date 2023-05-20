@@ -353,9 +353,7 @@ def validateTeamsAndAlgorithm(team_1_name, team_2_name, algorithm):
 
 
 # Function to calculate
-def calculate():
-    team1, team2, algorithm = getDataFromUI()
-
+def calculate(team1, team2, algorithm):
     try:
         validateTeamsAndAlgorithm(team1, team2, algorithm)
     except Exception as e:
@@ -376,7 +374,8 @@ def calculate():
 
 # outputs calculate result to UI
 def outputCalculateResult():
-    result = calculate()
+    team1, team2, algorithm = getDataFromUI()
+    result = calculate(team1, team2, algorithm)
     display_area.configure(state="normal")
     display_area.delete("1.0", tk.END)
     display_area.insert(tk.END, result)
