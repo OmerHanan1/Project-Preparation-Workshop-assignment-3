@@ -339,7 +339,7 @@ def getDataFromUI():
     team_1_name = team1_var.get()
     team_2_name = team2_var.get()
     algorithm = function_var.get()
-    return algorithm, team_1_name, team_2_name
+    return team_1_name, team_2_name, algorithm
 
 
 # validates UI data
@@ -354,10 +354,10 @@ def validateTeamsAndAlgorithm(team_1_name, team_2_name, algorithm):
 
 # Function to calculate
 def calculate():
-    algorithm, team1, team2 = getDataFromUI()
+    team1, team2, algorithm = getDataFromUI()
 
     try:
-        validateTeamsAndAlgorithm(algorithm, team1, team2)
+        validateTeamsAndAlgorithm(team1, team2, algorithm)
     except Exception as e:
         print(str(e))
         messagebox.showinfo("ERROR", f"{str(e)}")
