@@ -78,7 +78,7 @@ However, data characteristics can affect their performance.
 from sklearn.ensemble import RandomForestClassifier
 
 # Train a random forest classifier on the training set
-rfc = RandomForestClassifier(random_state=18)
+rfc = RandomForestClassifier(random_state=50)
 
 print(Fore.YELLOW + "Start training the RFC model..." + Style.RESET_ALL)
 
@@ -101,7 +101,7 @@ especially when they have a single hidden layer.
 from sklearn.neural_network import MLPClassifier
 
 # Train a MLP classifier on the training set
-mlp = MLPClassifier(hidden_layer_sizes=(25,), activation='relu', solver='adam', max_iter=100)
+mlp = MLPClassifier(hidden_layer_sizes=(20,), activation='relu', solver='adam', max_iter= 500)
 
 print(Fore.YELLOW + "Start training the MLP model..." + Style.RESET_ALL)
 
