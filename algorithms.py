@@ -30,8 +30,7 @@ def fetchTeamIdByName(name):
 
 # Select only the relevant features-
 features = ['date', 'home_team_api_id', 'away_team_api_id', 'home_team_name', 'away_team_name',
-            'home_team_win', 'possession', 'shoton', 'shotoff', 'B365H', 'B365D', 'B365A', 'BWH', 'BWA']
-
+            'home_team_win', 'B365H', 'B365D', 'B365A', 'BWH', 'BWA']
 original_data = match_data
 match_data = match_data[features]
 match_data['date'] = pd.to_datetime(match_data['date'])

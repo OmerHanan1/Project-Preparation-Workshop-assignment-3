@@ -28,8 +28,9 @@ match_data['away_team_name'] = match_data.apply(
 
 # take only features that are relevant
 features = ['date', 'home_team_api_id', 'away_team_api_id', 'home_team_name', 'away_team_name',
-            'home_team_win', 'possession', 'shoton', 'shotoff', 'B365H', 'B365D', 'B365A', 'BWH', 'BWA']
+            'home_team_win', 'B365H', 'B365D', 'B365A', 'BWH', 'BWA']
 match_data.dropna(inplace=True)
+print(match_data['possession'])
 match_data_with_features_only = match_data[features]
 
 # write to csv
