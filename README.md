@@ -2,7 +2,7 @@
 
 Project Preparation Workshop assignment 3
 
-## .gitignore setup:
+## Project setup:
 
 1. Create .gitignore file by open git bash terminal and run following command: \
    `touch .gitignore`
@@ -11,9 +11,15 @@ Project Preparation Workshop assignment 3
 
 3. Make sure the .gitignore file contains the line `database.sqlite`.
 
-4. run application command --> python .\main.py
+## App execution:
+```
+python .\main.py
+```
 
-5. run tests command --> python -m unittest tests.py
+## Tests execution:
+```
+python -m unittest tests.py
+```
 
 ## Authors:
 
