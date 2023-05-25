@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter import ttk, messagebox
 from consts import teamNames, algorithmNames
 import algorithms
-from algorithms import get_teams_with_match_row
+from algorithms import get_teams_with_match_row, get_all_test_teams, get_all_dates_of_matches
 
 
 # validates UI data
@@ -16,7 +16,7 @@ def validateTeamsAndAlgorithm(team_1_name, team_2_name, algorithm):
 
 
 # Function to calculate
-def calculate(team1, team2, algorithm):
+def calculate(team1, team2, match_date, algorithm):
     try:
         validateTeamsAndAlgorithm(team1, team2, algorithm)
     except Exception as e:
@@ -44,44 +44,62 @@ def run_application():
 
     # Dropdown for First team name
     team1_var = tk.StringVar(window)
-    team1_dropdown = ttk.Combobox(content_frame, textvariable=team1_var)
+    team1_dropdown = ttk.Combobox(
+        content_frame, textvariable=team1_var, state="readonly")
     team1_dropdown.pack(pady=10)
 
     # Dropdown for Second team name
     team2_var = tk.StringVar(window)
-    team2_dropdown = ttk.Combobox(content_frame, textvariable=team2_var)
+    team2_dropdown = ttk.Combobox(
+        content_frame, textvariable=team2_var, state="readonly")
     team2_dropdown.pack(pady=10)
+
+    # Dropdown for date of match
+    date_var = tk.StringVar(window)
+    date_dropdown = ttk.Combobox(
+        content_frame, textvariable=date_var, state="readonly")
+    date_dropdown.pack(pady=10)
 
     # Algorithms
     function_var = tk.StringVar(window)
     function_dropdown = ttk.Combobox(
-        content_frame, textvariable=function_var, values=["RFC", "MLP", "DTC"])
+        content_frame, textvariable=function_var, values=algorithmNames, state="readonly")
     function_dropdown.pack(pady=10)
 
     def update_dropdown_values():
-        try:
-            team1_values = get_teams_with_match_row(team2_var.get())
-        except:
-            team1_values = teamNames
-        team1_dropdown['values'] = team1_values
+        team_1_name = team1_var.get()
+        team_2_name = team2_var.get()
 
-        try:
-            team2_values = get_teams_with_match_row(team1_var.get())
-        except:
-            team2_values = teamNames
+        team1_dropdown['values'] = get_all_test_teams()
+
+        if team_1_name == "":
+            team2_values = get_all_test_teams()
+        else:
+            team2_values = get_teams_with_match_row(team_1_name)
         team2_dropdown['values'] = team2_values
 
+        if team_1_name != "" and team_2_name != "":
+            date_values = get_all_dates_of_matches(team_1_name, team_2_name)
+        else:
+            date_values = []
+            date_var.set("")
+        date_dropdown['values'] = date_values
+
+        window.after(100, update_dropdown_values)
+
     # gets data from UI
+
     def getDataFromUI():
         team_1_name = team1_var.get()
         team_2_name = team2_var.get()
+        match_date = date_var.get()
         algorithm = function_var.get()
-        return team_1_name, team_2_name, algorithm
+        return team_1_name, team_2_name, match_date, algorithm
 
     # outputs calculate result to UI
     def outputCalculateResult():
-        team1, team2, algorithm = getDataFromUI()
-        result = calculate(team1, team2, algorithm)
+        team1, team2, match_date, algorithm = getDataFromUI()
+        result = calculate(team1, team2, match_date, algorithm)
 
         result_output = None
         if result == 1:

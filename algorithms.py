@@ -2,10 +2,11 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn.neural_network import MLPClassifier
 from sklearn.ensemble import RandomForestClassifier
 import pandas as pd
+import numpy as np
 from colorama import Fore, Style
 import time
 import copy
-from consts import teamNames, algorithmNames
+from datetime import datetime
 
 # region Data preprocessing
 match_data = pd.read_csv("match_data_with_features_only.csv")
@@ -132,15 +133,43 @@ def get_teams_with_match_row(team_name):
     """
     returns all teams that has a match with 'team_name'
     """
-    if not team_name in teamNames:
-        return teamNames
-    else:
-        matching_teams = original_test_data[original_test_data['home_team_name'].str.contains(
-            team_name) | original_test_data['away_team_name'].str.contains(team_name)]
-        teams = matching_teams['home_team_name'].tolist(
-        ) + matching_teams['away_team_name'].tolist()
-        print(list(set(teams)))
-        return list(set(teams))
+    matching_teams = original_test_data[original_test_data['home_team_name'].str.contains(
+        team_name) | original_test_data['away_team_name'].str.contains(team_name)]
+    teams = matching_teams['home_team_name'].tolist(
+    ) + matching_teams['away_team_name'].tolist()
+    return list(set(teams))
+
+
+def get_all_test_teams():
+    """
+    returns all teams in test data
+    """
+    away_teams = original_test_data['away_team_name'].unique()
+    home_teams = original_test_data['home_team_name'].unique()
+    distinct_teams = np.union1d(away_teams, home_teams)
+    return list(distinct_teams)
+
+
+def get_all_dates_of_matches(team_1_name, team_2_name):
+    """
+    returns all dates of matches
+    """
+    try:
+        # extract all rows
+        matching_rows_1 = original_test_data[(original_test_data['home_team_name'] == team_1_name) & (
+            original_test_data['away_team_name'] == team_2_name)]
+        matching_rows_2 = original_test_data[(original_test_data['away_team_name'] == team_1_name) & (
+            original_test_data['home_team_name'] == team_2_name)]
+
+        # extract all dates from rows
+        matching_dates_1 = matching_rows_1['date']
+        matching_dates_2 = matching_rows_2['date']
+        distinct_dates = np.union1d(matching_dates_1, matching_dates_2)
+        distinct_dates = list(distinct_dates)
+        distinct_dates = np.datetime_as_string(distinct_dates, unit='D')
+        return distinct_dates
+    except:
+        return []
 
 
 def prediction(teamA, teamB, model):
