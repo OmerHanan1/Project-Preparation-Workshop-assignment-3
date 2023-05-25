@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import ttk, messagebox
 from consts import teamNames, algorithmNames
 import algorithms
+from algorithms import get_teams_with_match_row
 
 
 # validates UI data
@@ -43,14 +44,12 @@ def run_application():
 
     # Dropdown for First team name
     team1_var = tk.StringVar(window)
-    team1_dropdown = ttk.Combobox(
-        content_frame, textvariable=team1_var, values=teamNames)
+    team1_dropdown = ttk.Combobox(content_frame, textvariable=team1_var)
     team1_dropdown.pack(pady=10)
 
     # Dropdown for Second team name
     team2_var = tk.StringVar(window)
-    team2_dropdown = ttk.Combobox(
-        content_frame, textvariable=team2_var, values=teamNames)
+    team2_dropdown = ttk.Combobox(content_frame, textvariable=team2_var)
     team2_dropdown.pack(pady=10)
 
     # Algorithms
@@ -58,6 +57,19 @@ def run_application():
     function_dropdown = ttk.Combobox(
         content_frame, textvariable=function_var, values=["RFC", "MLP", "DTC"])
     function_dropdown.pack(pady=10)
+
+    def update_dropdown_values():
+        try:
+            team1_values = get_teams_with_match_row(team2_var.get())
+        except:
+            team1_values = teamNames
+        team1_dropdown['values'] = team1_values
+
+        try:
+            team2_values = get_teams_with_match_row(team1_var.get())
+        except:
+            team2_values = teamNames
+        team2_dropdown['values'] = team2_values
 
     # gets data from UI
     def getDataFromUI():
@@ -92,6 +104,8 @@ def run_application():
     # Display area
     display_area = tk.Text(window, height=5, width=30, state="disabled")
     display_area.pack(pady=10)
+
+    update_dropdown_values()
 
     # Run the UI loop
     window.mainloop()
