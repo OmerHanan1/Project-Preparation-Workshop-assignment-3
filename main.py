@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import ttk, messagebox, Text
 import algorithms
-from algorithms import get_teams_with_match_row, get_all_test_teams, get_all_dates_of_matches
+from algorithms import get_teams_with_match_row, get_all_test_teams, get_all_dates_of_matches, prediction
 
 algorithmNames = ["RFC", "MLP", "DTC"]
 
@@ -11,11 +11,11 @@ def calculate(team1, team2, match_date, algorithm):
     # TODO: ADD A WAY TO EXTRACT THE SPECIFIC ROW ACCORDING TO TEAM_1 TEAM_2 AND DATE AND RUN ALGORITHM ON IT
 
     if algorithm == "RFC":
-        result = algorithms.prediction(team1, team2, "RFC")
+        result = prediction(team1, team2, match_date, "RFC")
     elif algorithm == "MLP":
-        result = algorithms.prediction(team1, team2, "MLP")
+        result = prediction(team1, team2, match_date, "MLP")
     elif algorithm == "DTC":
-        result = algorithms.prediction(team1, team2, "DTC")
+        result = prediction(team1, team2, match_date, "DTC")
     else:
         result = "No function selected"
     return result

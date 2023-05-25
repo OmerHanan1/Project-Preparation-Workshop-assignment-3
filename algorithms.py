@@ -6,7 +6,6 @@ import numpy as np
 from colorama import Fore, Style
 import time
 import copy
-from datetime import datetime
 
 # region Data preprocessing
 match_data = pd.read_csv("match_data_with_features_only.csv")
