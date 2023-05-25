@@ -175,7 +175,7 @@ def get_all_dates_of_matches(team_1_name, team_2_name):
         return []
 
 
-def prediction(teamA, teamB, model):
+def prediction(team1, team2, match_date, algorithm):
     if model == 'RFC':
         model = rfc
     elif model == 'MLP':
