@@ -176,11 +176,11 @@ def get_all_dates_of_matches(team_1_name, team_2_name):
 
 
 def prediction(team1, team2, match_date, algorithm):
-    if model == 'RFC':
+    if algorithm == 'RFC':
         model = rfc
-    elif model == 'MLP':
+    elif algorithm == 'MLP':
         model = mlp
-    elif model == 'DTC':
+    elif algorithm == 'DTC':
         model = dtc
     else:
         print('Invalid model')
