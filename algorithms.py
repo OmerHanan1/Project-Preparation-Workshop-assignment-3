@@ -137,7 +137,9 @@ def get_teams_with_match_row(team_name):
         team_name) | original_test_data['away_team_name'].str.contains(team_name)]
     teams = matching_teams['home_team_name'].tolist(
     ) + matching_teams['away_team_name'].tolist()
-    return list(set(teams))
+    team_list = list(set(teams))
+    team_list.sort()
+    return team_list
 
 
 def get_all_test_teams():
@@ -147,7 +149,9 @@ def get_all_test_teams():
     away_teams = original_test_data['away_team_name'].unique()
     home_teams = original_test_data['home_team_name'].unique()
     distinct_teams = np.union1d(away_teams, home_teams)
-    return list(distinct_teams)
+    team_list = list(distinct_teams)
+    team_list.sort()
+    return team_list
 
 
 def get_all_dates_of_matches(team_1_name, team_2_name):

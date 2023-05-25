@@ -1,28 +1,14 @@
 import tkinter as tk
-from tkinter import ttk, messagebox
-from consts import teamNames, algorithmNames
+from tkinter import ttk, messagebox, Text
 import algorithms
 from algorithms import get_teams_with_match_row, get_all_test_teams, get_all_dates_of_matches
 
-
-# validates UI data
-def validateTeamsAndAlgorithm(team_1_name, team_2_name, algorithm):
-    if team_1_name not in teamNames:
-        raise Exception(f"'{team_1_name}' is not a valid team")
-    if team_2_name not in teamNames:
-        raise Exception(f"'{team_2_name}' is not a valid team")
-    if algorithm not in algorithmNames:
-        raise Exception(f"'{algorithm}' is not a valid algorithm")
+algorithmNames = ["RFC", "MLP", "DTC"]
 
 
-# Function to calculate
 def calculate(team1, team2, match_date, algorithm):
-    try:
-        validateTeamsAndAlgorithm(team1, team2, algorithm)
-    except Exception as e:
-        print(str(e))
-        messagebox.showinfo("ERROR", f"{str(e)}")
-        return None
+
+    # TODO: ADD A WAY TO EXTRACT THE SPECIFIC ROW ACCORDING TO TEAM_1 TEAM_2 AND DATE AND RUN ALGORITHM ON IT
 
     if algorithm == "RFC":
         result = algorithms.prediction(team1, team2, "RFC")
@@ -66,6 +52,7 @@ def run_application():
         content_frame, textvariable=function_var, values=algorithmNames, state="readonly")
     function_dropdown.pack(pady=10)
 
+    # Updates values according to values inserted
     def update_dropdown_values():
         team_1_name = team1_var.get()
         team_2_name = team2_var.get()
@@ -88,7 +75,6 @@ def run_application():
         window.after(100, update_dropdown_values)
 
     # gets data from UI
-
     def getDataFromUI():
         team_1_name = team1_var.get()
         team_2_name = team2_var.get()
