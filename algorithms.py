@@ -183,22 +183,19 @@ def prediction(team1, team2, match_date, algorithm):
     elif algorithm == 'DTC':
         model = dtc
     else:
-        print('Invalid model')
-        return "Invalid model"
+        raise Exception("Invalid model")
 
     try:
         to_perdict, true_label = getRowFromData(team1, team2, match_date)
     except Exception as e:
-        return Exception(f"Wrong Input team1={team1} team2={team2} didn't had a game")
+        raise Exception(
+            f"Wrong Input team1={team1} team2={team2} didn't had a game")
 
     if type(to_perdict) == type(None):
-        print('No data found')
         return None
+
     to_perdict = to_perdict.drop(columns=['date', 'home_team_win'])
     y_predict = model.predict(to_perdict)
-
-    print('Predicted label: ', y_predict)
-    print('True label: ', true_label)
 
     if y_predict == 1:
         y_predict = team1 + ' wins'
