@@ -15,6 +15,12 @@ class TestApplication(unittest.TestCase):
         self.assertEqual(
             res, ('Chelsea wins', 'Draw'), "should return ('Chelsea wins', 'Draw')")
 
+    def test_negative_getRowFromData_bad_teams(self):
+        res = getRowFromData(team1='Chelsea', team2='falafel',
+                             match_date='2015-05-01')
+        res = res[0]
+        self.assertEqual(res, None, "should return None")
+
     def test_positive_getRowFromData_return_type(self):
         res = getRowFromData(team1='Chelsea', team2='Liverpool',
                              match_date='2015-05-10')
