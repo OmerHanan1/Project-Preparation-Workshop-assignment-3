@@ -192,7 +192,8 @@ def prediction(team1, team2, match_date, algorithm):
             f"Wrong Input team1={team1} team2={team2} didn't had a game")
 
     if type(to_perdict) == type(None):
-        return None
+        raise Exception(
+            f"Wrong Input team1={team1} team2={team2} didn't had a game")
 
     to_perdict = to_perdict.drop(columns=['date', 'home_team_win'])
     y_predict = model.predict(to_perdict)
