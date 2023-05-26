@@ -8,7 +8,7 @@ class TestApplication(unittest.TestCase):
                         match_date="2015-09-09", algorithm='RFC')
         print(res)
         self.assertEqual(
-            res, None, "should return None when one team is invalid")
+            res, (None, None), "should return None when one team is invalid")
 
     def test_positive_calculate_one_team_with_unavailable_name(self):
         res = calculate(team1='Chelsea', team2='Liverpool',
