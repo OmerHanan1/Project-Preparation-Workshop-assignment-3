@@ -166,8 +166,10 @@ def get_all_dates_of_matches(team_1_name, team_2_name):
 
         # extract all dates from rows
         matching_dates = matching_rows['date']
-        print(matching_dates)
-        distinct_dates = list(set(matching_dates))
+        if type(matching_dates) == list:
+            distinct_dates = list(set(matching_dates))
+        else:
+            distinct_dates = matching_dates
         distinct_dates = np.datetime_as_string(distinct_dates, unit='D')
         return distinct_dates
     except:
