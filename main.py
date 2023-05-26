@@ -53,6 +53,9 @@ def run_application():
         content_frame, textvariable=date_var, state="readonly")
     date_dropdown.pack(pady=10)
 
+    team1_label = ttk.Label(content_frame, text="Algorithm:")
+    team1_label.pack()
+
     # Algorithms
     function_var = tk.StringVar(window)
     function_dropdown = ttk.Combobox(
