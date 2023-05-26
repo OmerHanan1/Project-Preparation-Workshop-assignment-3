@@ -26,17 +26,26 @@ def run_application():
         window, padding=50, relief="flat", borderwidth=10)
     content_frame.pack()
 
+    team1_label = ttk.Label(content_frame, text="Home Team:")
+    team1_label.pack()
+
     # Dropdown for First team name
     team1_var = tk.StringVar(window)
     team1_dropdown = ttk.Combobox(
         content_frame, textvariable=team1_var, state="readonly")
     team1_dropdown.pack(pady=10)
 
+    team1_label = ttk.Label(content_frame, text="Away Team:")
+    team1_label.pack()
+
     # Dropdown for Second team name
     team2_var = tk.StringVar(window)
     team2_dropdown = ttk.Combobox(
         content_frame, textvariable=team2_var, state="readonly")
     team2_dropdown.pack(pady=10)
+
+    team1_label = ttk.Label(content_frame, text="Match Date:")
+    team1_label.pack()
 
     # Dropdown for date of match
     date_var = tk.StringVar(window)
