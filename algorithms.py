@@ -150,9 +150,10 @@ def get_all_test_teams():
     # away_teams = original_test_data['away_team_name'].unique()
     home_teams = original_test_data['home_team_name'].unique()
     # distinct_teams = np.union1d(away_teams, home_teams)
-    team_list = list(home_teams) #list(distinct_teams)
+    team_list = list(home_teams)  # list(distinct_teams)
     team_list.sort()
     return team_list
+
 
 def get_all_dates_of_matches(team_1_name, team_2_name):
     """
@@ -160,16 +161,12 @@ def get_all_dates_of_matches(team_1_name, team_2_name):
     """
     try:
         # extract all rows
-        matching_rows_1 = original_test_data[(original_test_data['home_team_name'] == team_1_name) & (
+        matching_rows = original_test_data[(original_test_data['home_team_name'] == team_1_name) & (
             original_test_data['away_team_name'] == team_2_name)]
-        matching_rows_2 = original_test_data[(original_test_data['away_team_name'] == team_1_name) & (
-            original_test_data['home_team_name'] == team_2_name)]
 
         # extract all dates from rows
-        matching_dates_1 = matching_rows_1['date']
-        matching_dates_2 = matching_rows_2['date']
-        distinct_dates = np.union1d(matching_dates_1, matching_dates_2)
-        distinct_dates = list(distinct_dates)
+        matching_dates = matching_rows['date']
+        distinct_dates = list(set(matching_dates))
         distinct_dates = np.datetime_as_string(distinct_dates, unit='D')
         return distinct_dates
     except:
@@ -178,7 +175,7 @@ def get_all_dates_of_matches(team_1_name, team_2_name):
 
 def prediction(team1, team2, match_date, algorithm):
     if algorithm == 'RFC':
-        model = rfc    
+        model = rfc
     elif algorithm == 'MLP':
         model = mlp
     elif algorithm == 'DTC':
@@ -186,7 +183,7 @@ def prediction(team1, team2, match_date, algorithm):
     else:
         print('Invalid model')
         return
-    
+
     to_perdict, true_label = getRowFromData(team1, team2, match_date)
     # if to_perdict and true_label == None:
     #     print('No data found')
@@ -199,20 +196,21 @@ def prediction(team1, team2, match_date, algorithm):
 
     print('Predicted label: ', y_predict)
     print('True label: ', true_label)
-    messagebox.showinfo("Prediction", "Predicted label: " + str(y_predict) + "\nTrue label: " + str(true_label))
+    messagebox.showinfo("Prediction", "Predicted label: " +
+                        str(y_predict) + "\nTrue label: " + str(true_label))
     return y_predict, true_label
 
 
 def getRowFromData(team1, team2, match_date):
     # print(match_date)
-    clean_date_format = pd.to_datetime(match_date.replace("'", "").replace("[", "").replace("]", ""))
+    clean_date_format = pd.to_datetime(match_date.replace(
+        "'", "").replace("[", "").replace("]", ""))
     # print(clean_date_format)
 
-
     condition = (
-    (match_data['home_team_name_' + team1] == 1) &
-    (match_data['away_team_name_' + team2] == 1) &
-    (match_data['date'] == clean_date_format)
+        (match_data['home_team_name_' + team1] == 1) &
+        (match_data['away_team_name_' + team2] == 1) &
+        (match_data['date'] == clean_date_format)
     )
 
     filtered_data = match_data[condition]
