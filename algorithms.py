@@ -189,7 +189,7 @@ def prediction(team1, team2, match_date, algorithm):
     try:
         to_perdict, true_label = getRowFromData(team1, team2, match_date)
     except Exception as e:
-        return e
+        return Exception(f"Wrong Input team1={team1} team2={team2} didn't had a game")
 
     if type(to_perdict) == type(None):
         print('No data found')
