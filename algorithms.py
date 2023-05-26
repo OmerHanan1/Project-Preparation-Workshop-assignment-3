@@ -130,14 +130,13 @@ trainModel(dtc, X_train, y_train)
 print(Fore.GREEN + "Finished training the DTC model..." + Style.RESET_ALL)
 
 
-def get_teams_with_match_row(team_name):
+def get_teams_with_match_row(home_team_name):
     """
     returns all teams that has a match with 'team_name'
     """
     matching_teams = original_test_data[original_test_data['home_team_name'].str.contains(
-        team_name) | original_test_data['away_team_name'].str.contains(team_name)]
-    teams = matching_teams['home_team_name'].tolist(
-    ) + matching_teams['away_team_name'].tolist()
+        home_team_name)]
+    teams = matching_teams['away_team_name'].tolist()
     team_list = list(set(teams))
     team_list.sort()
     return team_list
@@ -185,7 +184,7 @@ def prediction(team1, team2, match_date, algorithm):
         model = dtc
     else:
         print('Invalid model')
-        return
+        return None
 
     try:
         to_perdict, true_label = getRowFromData(team1, team2, match_date)
@@ -197,7 +196,7 @@ def prediction(team1, team2, match_date, algorithm):
     #     return
     if type(to_perdict) == type(None):
         print('No data found')
-        return
+        return None
     to_perdict = to_perdict.drop(columns=['date', 'home_team_win'])
     y_predict = model.predict(to_perdict)
 
