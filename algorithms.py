@@ -187,7 +187,11 @@ def prediction(team1, team2, match_date, algorithm):
         print('Invalid model')
         return
 
-    to_perdict, true_label = getRowFromData(team1, team2, match_date)
+    try:
+        to_perdict, true_label = getRowFromData(team1, team2, match_date)
+    except Exception as e:
+        print(e)
+        return None
     # if to_perdict and true_label == None:
     #     print('No data found')
     #     return
@@ -209,8 +213,8 @@ def prediction(team1, team2, match_date, algorithm):
 
     # Make the true label a dataframe
     true_label = pd.DataFrame(true_label)
-    true_label = true_label.iloc[0, 0]  
-    
+    true_label = true_label.iloc[0, 0]
+
     if true_label == 1:
         true_label = team1
     elif true_label == 0:
