@@ -164,6 +164,7 @@ def get_all_dates_of_matches(team_1_name, team_2_name):
         matching_rows = original_test_data[(original_test_data['home_team_name'] == team_1_name) & (
             original_test_data['away_team_name'] == team_2_name)]
 
+        print(matching_rows)
         # extract all dates from rows
         matching_dates = matching_rows['date']
         distinct_dates = list(set(matching_dates))
