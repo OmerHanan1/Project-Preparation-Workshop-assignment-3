@@ -7,17 +7,15 @@ algorithmNames = ["RFC", "MLP", "DTC"]
 
 
 def calculate(team1, team2, match_date, algorithm):
-
-    # TODO: ADD A WAY TO EXTRACT THE SPECIFIC ROW ACCORDING TO TEAM_1 TEAM_2 AND DATE AND RUN ALGORITHM ON IT
-
-    if algorithm == "RFC":
+    if algorithm == 'RFC':
         result = prediction(team1, team2, match_date, "RFC")
-    elif algorithm == "MLP":
+    elif algorithm == 'MLP':
         result = prediction(team1, team2, match_date, "MLP")
-    elif algorithm == "DTC":
+    elif algorithm == 'DTC':
         result = prediction(team1, team2, match_date, "DTC")
     else:
-        result = "No function selected"
+        print("main::calculate::Error")
+        result = None
     return result
 
 
@@ -86,8 +84,9 @@ def run_application():
     def outputCalculateResult():
         team1, team2, match_date, algorithm = getDataFromUI()
         result = calculate(team1, team2, match_date, algorithm)
-
         result_output = None
+        if result == None:
+            result_output = "No result"
         if result == 1:
             result_output = f"{team1} wins"
         elif result == -1:

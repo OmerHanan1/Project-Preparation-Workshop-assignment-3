@@ -1,3 +1,4 @@
+from tkinter import messagebox
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.neural_network import MLPClassifier
 from sklearn.ensemble import RandomForestClassifier
@@ -62,6 +63,7 @@ def trainModel(model, X_train, y_train):
     # Print the elapsed time
     print(Fore.YELLOW + "Elapsed time: " +
           str(elapsed_time) + " seconds" + Style.RESET_ALL)
+    model
 
     return model
 
@@ -145,13 +147,12 @@ def get_all_test_teams():
     """
     returns all teams in test data
     """
-    away_teams = original_test_data['away_team_name'].unique()
+    # away_teams = original_test_data['away_team_name'].unique()
     home_teams = original_test_data['home_team_name'].unique()
-    distinct_teams = np.union1d(away_teams, home_teams)
-    team_list = list(distinct_teams)
+    # distinct_teams = np.union1d(away_teams, home_teams)
+    team_list = list(home_teams) #list(distinct_teams)
     team_list.sort()
     return team_list
-
 
 def get_all_dates_of_matches(team_1_name, team_2_name):
     """
@@ -177,7 +178,7 @@ def get_all_dates_of_matches(team_1_name, team_2_name):
 
 def prediction(team1, team2, match_date, algorithm):
     if algorithm == 'RFC':
-        model = rfc
+        model = rfc    
     elif algorithm == 'MLP':
         model = mlp
     elif algorithm == 'DTC':
@@ -185,10 +186,37 @@ def prediction(team1, team2, match_date, algorithm):
     else:
         print('Invalid model')
         return
+    
+    to_perdict, true_label = getRowFromData(team1, team2, match_date)
+    # if to_perdict and true_label == None:
+    #     print('No data found')
+    #     return
+    if type(to_perdict) == type(None):
+        print('No data found')
+        return
+    to_perdict = to_perdict.drop(columns=['date', 'home_team_win'])
+    y_predict = model.predict(to_perdict)
 
-    test_data = pd.DataFrame(columns=X_test.columns)
-    test_data.at[0, 'home_team_name'] = teamA_id
-    test_data.at[0, 'away_team_name'] = teamB_id
+    print('Predicted label: ', y_predict)
+    print('True label: ', true_label)
+    messagebox.showinfo("Prediction", "Predicted label: " + str(y_predict) + "\nTrue label: " + str(true_label))
+    return y_predict, true_label
 
-    y_pred = model.predict(test_data)
-    return (y_pred)
+
+def getRowFromData(team1, team2, match_date):
+    # print(match_date)
+    clean_date_format = pd.to_datetime(match_date.replace("'", "").replace("[", "").replace("]", ""))
+    # print(clean_date_format)
+
+
+    condition = (
+    (match_data['home_team_name_' + team1] == 1) &
+    (match_data['away_team_name_' + team2] == 1) &
+    (match_data['date'] == clean_date_format)
+    )
+
+    filtered_data = match_data[condition]
+    if filtered_data.empty:
+        return None, None
+
+    return filtered_data, filtered_data['home_team_win']
