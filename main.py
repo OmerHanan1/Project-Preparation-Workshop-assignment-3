@@ -99,30 +99,12 @@ def run_application():
     # outputs calculate result to UI
     def outputCalculateResult():
         team1, team2, match_date, algorithm = getDataFromUI()
-        result = calculate(team1, team2, match_date, algorithm)
-        result_output = None
-        if result == None:
-            result_output = "No result"
-        if result == 1:
-            result_output = f"{team1} wins"
-        elif result == -1:
-            result_output = f"{team2} wins"
-        elif result == 0:
-            result_output = 'draw'
-
-        display_area.configure(state="normal")
-        display_area.delete("1.0", tk.END)
-        display_area.insert(tk.END, result_output)
-        display_area.configure(state="disabled")
+        calculate(team1, team2, match_date, algorithm)
 
     # Button to trigger calculation
     calculate_button = ttk.Button(
         content_frame, text="Calculate", command=outputCalculateResult)
     calculate_button.pack(pady=10)
-
-    # Display area
-    display_area = tk.Text(window, height=5, width=30, state="disabled")
-    display_area.pack(pady=10)
 
     update_dropdown_values()
 
