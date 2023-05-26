@@ -191,9 +191,7 @@ def prediction(team1, team2, match_date, algorithm):
     except Exception as e:
         print(e)
         return None
-    # if to_perdict and true_label == None:
-    #     print('No data found')
-    #     return
+
     if type(to_perdict) == type(None):
         print('No data found')
         return None
@@ -204,25 +202,23 @@ def prediction(team1, team2, match_date, algorithm):
     print('True label: ', true_label)
 
     if y_predict == 1:
-        y_predict = team1
+        y_predict = team1 + ' wins'
     elif y_predict == 0:
         y_predict = 'Draw'
     else:
-        y_predict = team2
+        y_predict = team2 + ' wins'
 
     # Make the true label a dataframe
     true_label = pd.DataFrame(true_label)
     true_label = true_label.iloc[0, 0]
 
     if true_label == 1:
-        true_label = team1
+        true_label = team1 + ' wins'
     elif true_label == 0:
         true_label = 'Draw'
     else:
-        true_label = team2
+        true_label = team2 + ' wins'
 
-    # messagebox.showinfo("Prediction", "Predicted label: " +
-    #                     str(y_predict) + "\nTrue label: " + str(true_label))
     return y_predict, true_label
 
 
