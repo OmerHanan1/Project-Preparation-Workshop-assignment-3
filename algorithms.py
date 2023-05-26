@@ -82,7 +82,7 @@ However, data characteristics can affect their performance.
 
 """
 # Train a random forest classifier on the training set
-rfc = RandomForestClassifier(random_state=50)
+rfc = RandomForestClassifier(random_state=80)
 
 print(Fore.YELLOW + "Start training the RFC model..." + Style.RESET_ALL)
 
@@ -103,7 +103,7 @@ especially when they have a single hidden layer.
 """
 # Train a MLP classifier on the training set
 mlp = MLPClassifier(hidden_layer_sizes=(
-    20,), activation='relu', solver='adam', max_iter=2)
+    20,), activation='relu', solver='adam', max_iter=50)
 
 print(Fore.YELLOW + "Start training the MLP model..." + Style.RESET_ALL)
 
@@ -121,7 +121,7 @@ It is one way to display an algorithm that only contains conditional control sta
 
 """
 # Train the classifier on your data
-dtc = DecisionTreeClassifier(max_depth=2)
+dtc = DecisionTreeClassifier(max_depth=18)
 
 print(Fore.YELLOW + "Start training the DTC model..." + Style.RESET_ALL)
 
