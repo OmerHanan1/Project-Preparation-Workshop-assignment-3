@@ -187,13 +187,13 @@ def prediction(team1, team2, match_date, algorithm):
 
     try:
         to_perdict, true_label = getRowFromData(team1, team2, match_date)
-    except Exception as e:
+    except Exception:
         raise Exception(
-            f"Wrong Input team1={team1} team2={team2} didn't had a game")
+            f"Wrong Input: {team1} and {team2} had no game in {match_date}")
 
     if type(to_perdict) == type(None):
         raise Exception(
-            f"Wrong Input team1={team1} team2={team2} didn't had a game")
+            f"Wrong Input: {team1} and {team2} had no game in {match_date}")
 
     to_perdict = to_perdict.drop(columns=['date', 'home_team_win'])
     y_predict = model.predict(to_perdict)
@@ -220,10 +220,8 @@ def prediction(team1, team2, match_date, algorithm):
 
 
 def getRowFromData(team1, team2, match_date):
-    # print(match_date)
     clean_date_format = pd.to_datetime(match_date.replace(
         "'", "").replace("[", "").replace("]", ""))
-    # print(clean_date_format)
 
     condition = (
         (match_data['home_team_name_' + team1] == 1) &

@@ -1,7 +1,5 @@
 import tkinter as tk
-from tkinter import ttk, messagebox, Text
-import algorithms
-from tkinter.font import Font
+from tkinter import ttk, messagebox
 from algorithms import get_teams_with_match_row, get_all_test_teams, get_all_dates_of_matches, prediction
 
 algorithmNames = ["RFC", "MLP", "DTC"]
@@ -19,7 +17,7 @@ def calculate(team1, team2, match_date, algorithm):
             print("main::calculate::Error")
     except Exception as e:
         messagebox.showinfo("Error", f"{e}")
-
+        print(e)
     messagebox.showinfo("Prediction", "Predicted Result: " +
                         str(y_predict) + "\nTrue Result: " + str(true_label))
 
