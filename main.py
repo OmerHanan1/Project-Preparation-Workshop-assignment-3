@@ -7,14 +7,16 @@ algorithmNames = ["RFC", "MLP", "DTC"]
 
 
 def calculate(team1, team2, match_date, algorithm):
-    if algorithm == 'RFC':
-        y_predict, true_label = prediction(team1, team2, match_date, "RFC")
-    elif algorithm == 'MLP':
-        y_predict, true_label = prediction(team1, team2, match_date, "MLP")
-    elif algorithm == 'DTC':
-        y_predict, true_label = prediction(team1, team2, match_date, "DTC")
-    else:
-        print("main::calculate::Error")
+    try:
+        if algorithm == 'RFC':
+            y_predict, true_label = prediction(team1, team2, match_date, "RFC")
+        elif algorithm == 'MLP':
+            y_predict, true_label = prediction(team1, team2, match_date, "MLP")
+        elif algorithm == 'DTC':
+            y_predict, true_label = prediction(team1, team2, match_date, "DTC")
+        else:
+            print("main::calculate::Error")
+    except Exception:
         y_predict = None
         true_label = None
     messagebox.showinfo("Prediction", "Predicted label: " +
