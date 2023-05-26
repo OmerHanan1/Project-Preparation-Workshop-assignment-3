@@ -8,15 +8,19 @@ algorithmNames = ["RFC", "MLP", "DTC"]
 
 def calculate(team1, team2, match_date, algorithm):
     if algorithm == 'RFC':
-        result = prediction(team1, team2, match_date, "RFC")
+        y_predict, true_label = prediction(team1, team2, match_date, "RFC")
     elif algorithm == 'MLP':
-        result = prediction(team1, team2, match_date, "MLP")
+        y_predict, true_label = prediction(team1, team2, match_date, "MLP")
     elif algorithm == 'DTC':
-        result = prediction(team1, team2, match_date, "DTC")
+        y_predict, true_label = prediction(team1, team2, match_date, "DTC")
     else:
         print("main::calculate::Error")
-        result = None
-    return result
+        y_predict, true_label = None
+
+    messagebox.showinfo("Prediction", "Predicted label: " +
+                        str(y_predict) + "\nTrue label: " + str(true_label))
+
+    return y_predict, true_label
 
 
 def run_application():

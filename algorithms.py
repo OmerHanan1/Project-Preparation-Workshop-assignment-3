@@ -218,8 +218,8 @@ def prediction(team1, team2, match_date, algorithm):
     else:
         true_label = team2
 
-    messagebox.showinfo("Prediction", "Predicted label: " +
-                        str(y_predict) + "\nTrue label: " + str(true_label))
+    # messagebox.showinfo("Prediction", "Predicted label: " +
+    #                     str(y_predict) + "\nTrue label: " + str(true_label))
     return y_predict, true_label
 
 
