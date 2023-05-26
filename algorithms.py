@@ -184,13 +184,12 @@ def prediction(team1, team2, match_date, algorithm):
         model = dtc
     else:
         print('Invalid model')
-        return None
+        return "Invalid model"
 
     try:
         to_perdict, true_label = getRowFromData(team1, team2, match_date)
     except Exception as e:
-        print(e)
-        return None
+        return e
 
     if type(to_perdict) == type(None):
         print('No data found')

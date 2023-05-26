@@ -17,8 +17,8 @@ def calculate(team1, team2, match_date, algorithm):
             y_predict, true_label = prediction(team1, team2, match_date, "DTC")
         else:
             print("main::calculate::Error")
-    except Exception:
-        messagebox.showinfo("Error")
+    except Exception as e:
+        messagebox.showinfo(f"Error: {e}")
 
     messagebox.showinfo("Prediction", "Predicted Result: " +
                         str(y_predict) + "\nTrue Result: " + str(true_label))
