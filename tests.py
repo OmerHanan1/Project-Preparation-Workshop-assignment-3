@@ -39,11 +39,11 @@ class TestApplication(unittest.TestCase):
     def test_positive_getRowFromData_return_type(self):
         """
         test case: try to extract row teams game score with valid input.
-        input: team1='Chelsea', team2='Liverpool', match_date='2015-05-10'
+        input: team1='Leicester City', team2='Chelsea', match_date='2015-04-29'
         output: should return a variable of type pd.core.frame.DataFrame
         """
-        res = getRowFromData(team1='Chelsea', team2='Liverpool',
-                             match_date='2015-05-10')
+        res = getRowFromData(team1='Leicester City', team2='Chelsea',
+                             match_date='2015-04-29')
         res = res[0]
         self.assertEqual(type(res), pd.core.frame.DataFrame,
                          "should return 'pd.core.frame.DataFrame'")

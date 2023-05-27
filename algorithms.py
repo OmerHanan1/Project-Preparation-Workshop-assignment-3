@@ -8,7 +8,7 @@ import time
 import copy
 
 # region Data preprocessing
-match_data = pd.read_csv("match_data_with_features_only.csv")
+match_data = pd.read_csv("data_for_models.csv")
 
 # Select only the relevant features-
 features = ['date', 'home_team_api_id', 'away_team_api_id', 'home_team_name', 'away_team_name',
@@ -145,10 +145,8 @@ def get_all_test_teams():
     """
     returns all teams in test data
     """
-    # away_teams = original_test_data['away_team_name'].unique()
     home_teams = original_test_data['home_team_name'].unique()
-    # distinct_teams = np.union1d(away_teams, home_teams)
-    team_list = list(home_teams)  # list(distinct_teams)
+    team_list = list(home_teams)
     team_list.sort()
     return team_list
 

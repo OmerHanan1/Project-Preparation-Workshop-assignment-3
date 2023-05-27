@@ -33,4 +33,4 @@ match_data_with_features_only = match_data[features]
 match_data_with_features_only = match_data_with_features_only.dropna()
 
 # write to csv
-match_data_with_features_only.to_csv('match_data_with_features_only.csv')
+match_data_with_features_only.to_csv('data_for_models.csv')

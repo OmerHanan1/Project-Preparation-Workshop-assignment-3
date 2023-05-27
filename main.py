@@ -3,24 +3,34 @@ from tkinter import ttk, messagebox
 from algorithms import get_teams_with_match_row, get_all_test_teams, get_all_dates_of_matches, prediction
 
 algorithmNames = ["RFC", "MLP", "DTC"]
+home_team_value = ""
 
 
 def calculate(team1, team2, match_date, algorithm):
     try:
-        if algorithm == 'RFC':
+        if team1 == "":
+            raise Exception("choose Home Team")
+        elif team2 == "":
+            raise Exception("choose Away Team")
+        elif match_date == "":
+            raise Exception("choose Match Date")
+        elif algorithm == 'RFC':
             y_predict, true_label = prediction(team1, team2, match_date, "RFC")
         elif algorithm == 'MLP':
             y_predict, true_label = prediction(team1, team2, match_date, "MLP")
         elif algorithm == 'DTC':
             y_predict, true_label = prediction(team1, team2, match_date, "DTC")
+        elif algorithm == '':
+            raise Exception("choose Algorithm")
         else:
-            print("main::calculate::Error")
+            raise Exception("choose valid input")
+
     except Exception as e:
         messagebox.showinfo("Error", f"{e}")
-        print(e)
+        return
+
     messagebox.showinfo("Prediction", "Predicted Result: " +
                         str(y_predict) + "\nTrue Result: " + str(true_label))
-
     return y_predict, true_label
 
 
@@ -71,23 +81,29 @@ def run_application():
     def update_dropdown_values():
         team_1_name = team1_var.get()
         team_2_name = team2_var.get()
+        team1_dropdown.bind("<<ComboboxSelected>>", on_home_team_change)
 
         team1_dropdown['values'] = get_all_test_teams()
 
         if team_1_name == "":
-            team2_values = get_all_test_teams()
+            team2_dropdown.configure(state="disabled")
         else:
             team2_values = get_teams_with_match_row(team_1_name)
-        team2_dropdown['values'] = team2_values
+            team2_dropdown.configure(state="normal")
+            team2_dropdown['values'] = team2_values
 
         if team_1_name != "" and team_2_name != "":
             date_values = get_all_dates_of_matches(team_1_name, team_2_name)
+            date_dropdown.configure(state="normal")
+            date_dropdown['values'] = date_values
         else:
-            date_values = []
-            date_var.set("")
-        date_dropdown['values'] = date_values
+            date_dropdown.configure(state="disabled")
 
         window.after(100, update_dropdown_values)
+
+    def on_home_team_change(event):
+        team2_var.set("")
+        date_var.set("")
 
     # gets data from UI
     def getDataFromUI():
@@ -101,6 +117,10 @@ def run_application():
     def outputCalculateResult():
         team1, team2, match_date, algorithm = getDataFromUI()
         calculate(team1, team2, match_date, algorithm)
+        team1_var.set("")
+        team2_var.set("")
+        date_var.set("")
+        function_var.set("")
 
     # Button to trigger calculation
     calculate_button = ttk.Button(
