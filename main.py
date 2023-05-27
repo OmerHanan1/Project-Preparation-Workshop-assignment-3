@@ -31,7 +31,6 @@ def calculate(team1, team2, match_date, algorithm):
 
     messagebox.showinfo("Prediction", "Predicted Result: " +
                         str(y_predict) + "\nTrue Result: " + str(true_label))
-    return y_predict, true_label
 
 
 def run_application():
