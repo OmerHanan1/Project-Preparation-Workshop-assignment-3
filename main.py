@@ -81,6 +81,7 @@ def run_application():
         team_1_name = team1_var.get()
         team_2_name = team2_var.get()
         team1_dropdown.bind("<<ComboboxSelected>>", on_home_team_change)
+        team2_dropdown.bind("<<ComboboxSelected>>", on_away_team_change)
 
         team1_dropdown['values'] = get_all_test_teams()
 
@@ -104,6 +105,9 @@ def run_application():
         team2_var.set("")
         date_var.set("")
 
+    def on_away_team_change(event):
+        date_var.set("")
+
     # gets data from UI
     def getDataFromUI():
         team_1_name = team1_var.get()
@@ -116,10 +120,6 @@ def run_application():
     def outputCalculateResult():
         team1, team2, match_date, algorithm = getDataFromUI()
         calculate(team1, team2, match_date, algorithm)
-        team1_var.set("")
-        team2_var.set("")
-        date_var.set("")
-        function_var.set("")
 
     # Button to trigger calculation
     calculate_button = ttk.Button(
